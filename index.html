@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="stylesheet.css" />
+    <link href="material_design_colors.css" rel="stylesheet" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <div id="toolbox">
+        <input type="color" id="colourSelector" value="#8D6268"/>
+        <button class="toolButton"><img src="./images/pen.png" /></button>
+        <button class="toolButton"><img src="./images/eraser.png" /></button>
+        <button class="toolButton">
+          <img src="./images/eyedropper.png" />
+        </button>
+        <button class="toolButton">clear</button>
+        <input type="range"/>
+        <button class="toolButton"><img src="./images/grid.png" /></button>
+        <div id="colourPalette">
+          <div class="red demoColour"></div>
+          <div class="orange demoColour"></div>
+          <div class="yellow demoColour"></div>
+          <div class="green demoColour"></div>
+          <div class="teal demoColour"></div>
+          <div class="blue demoColour"></div>
+          <div class="purple demoColour"></div>
+          <div class="pink demoColour"></div>
+        </div>
+      </div>
+      <div id="canvas"></div>
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+</html>

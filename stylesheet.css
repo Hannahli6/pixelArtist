@@ -37,7 +37,7 @@ body {
   max-width: 30px;
 }
 
-.colourSelector {
+[name~=colourSelector] {
   display: block;
   width: 100%;
   height: 100%;

@@ -8,30 +8,34 @@ canvas.style.gridTemplateRows = `repeat(${gridLength}, 1fr)`;
 const toolBox = document.getElementById("toolBox");
 const tools = document.getElementsByClassName("toolButton");
 const toolsArr = [...tools];
-const currentTool = toolsArr[0];
-let currentPenColour = "gray";
-
-toolsArr.map((tool, index) => {
+let currentPenColour = toolsArr[0].defaultValue;
+let newCurrentPenColour = toolsArr[0].defaultValue;
+toolsArr.forEach((tool) => {
   tool.addEventListener("click", (e) => onToolClick(e));
 });
 
 function onToolClick(e) {
   let toolName = e.target.getAttribute("name");
   if (toolName === "pen") {
-    console.log('pen')
     pen();
   }else if (toolName === "eraser"){
-    console.log('eraser')
     eraser();
+  }else if (toolName === "colourSelector"){
+    e.target.addEventListener("input", (e)=>colourSelector(e), false)
   }
 }
 
 function pen() {
-  currentPenColour = "gray" //set it equal to the new pen colour from the colour selector;
+  currentPenColour = newCurrentPenColour; 
 }
 function eraser() {
   currentPenColour = canvasColour;
 }
+function colourSelector(e) {
+  newCurrentPenColour = e.target.value;
+  currentPenColour = newCurrentPenColour;
+}
+
 
 for (let i = 0; i < gridLength * gridLength; i++) {
   const squareDiv = document.createElement("div");

@@ -15,7 +15,7 @@ let newCurrentPenColour = toolsArr[0].defaultValue;
 
 toolsArr.forEach((tool) => {
   tool.addEventListener("click", (e) => onToolClick(e));
-  if(currentTool === tool.attributes.name.nodeValue){
+  if (currentTool === tool.attributes.name.nodeValue) {
     tool.style.backgroundColor = selectedToolBtnColour;
   }
 });
@@ -23,31 +23,38 @@ toolsArr.forEach((tool) => {
 function onToolClick(e) {
   let toolName = e.target.getAttribute("name");
   // make this to switch statements
-  if (toolName === "pen") {
-    currentTool = toolName;
-    pen();
-  }else if (toolName === "eraser"){
-    currentTool = toolName;
-    eraser();
-  }else if (toolName === "colourSelector"){
-    currentTool = toolName;
-    e.target.addEventListener("input", (e)=>colourSelector(e), false)
+  switch (toolName) {
+    case "pen":
+      currentTool = toolName;
+      pen();
+      break;
+    case "eraser":
+      currentTool = toolName;
+      eraser();
+      break;
+    case "colourSelector":
+      currentTool = toolName;
+      e.target.addEventListener("input", (e) => colourSelector(e), false);
+      break;
+    case "clear":
+      currentTool = toolName;
+      clearCanvas();
+      break;
   }
 
-  toolsArr.forEach((tool)=>{
-    if (currentTool === tool.attributes.name.nodeValue){
+  toolsArr.forEach((tool) => {
+    if (currentTool === tool.attributes.name.nodeValue) {
       e.target.style.background = selectedToolBtnColour;
-    }else if (currentTool === "colourSelector"){
+    } else if (currentTool === "colourSelector") {
       e.target.style.background = "white";
-    }else if (currentTool != tool.attributes.name.nodeValue){
-      tool.style.background = "white"
+    } else if (currentTool != tool.attributes.name.nodeValue) {
+      tool.style.background = "white";
     }
-  })
+  });
 }
 
-
 function pen() {
-  currentPenColour = newCurrentPenColour; 
+  currentPenColour = newCurrentPenColour;
 }
 function eraser() {
   currentPenColour = canvasColour;
@@ -56,7 +63,11 @@ function colourSelector(e) {
   newCurrentPenColour = e.target.value;
   currentPenColour = newCurrentPenColour;
 }
-
+function clearCanvas(){
+  for (let i = 0; i < canvas.childElementCount; i++){
+    canvas.children[i].style.background = canvasColour;
+  }
+}
 
 for (let i = 0; i < gridLength * gridLength; i++) {
   const squareDiv = document.createElement("div");
@@ -93,5 +104,3 @@ canvas.addEventListener("mousedown", function (e) {
   e.preventDefault();
   mouseDown(e);
 });
-
-

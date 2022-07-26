@@ -8,22 +8,43 @@ canvas.style.gridTemplateRows = `repeat(${gridLength}, 1fr)`;
 const toolBox = document.getElementById("toolBox");
 const tools = document.getElementsByClassName("toolButton");
 const toolsArr = [...tools];
+let currentTool = "pen";
+const selectedToolBtnColour = "#7CA4C5";
 let currentPenColour = toolsArr[0].defaultValue;
 let newCurrentPenColour = toolsArr[0].defaultValue;
+
 toolsArr.forEach((tool) => {
   tool.addEventListener("click", (e) => onToolClick(e));
+  if(currentTool === tool.attributes.name.nodeValue){
+    tool.style.backgroundColor = selectedToolBtnColour;
+  }
 });
 
 function onToolClick(e) {
   let toolName = e.target.getAttribute("name");
+  // make this to switch statements
   if (toolName === "pen") {
+    currentTool = toolName;
     pen();
   }else if (toolName === "eraser"){
+    currentTool = toolName;
     eraser();
   }else if (toolName === "colourSelector"){
+    currentTool = toolName;
     e.target.addEventListener("input", (e)=>colourSelector(e), false)
   }
+
+  toolsArr.forEach((tool)=>{
+    if (currentTool === tool.attributes.name.nodeValue){
+      e.target.style.background = selectedToolBtnColour;
+    }else if (currentTool === "colourSelector"){
+      e.target.style.background = "white";
+    }else if (currentTool != tool.attributes.name.nodeValue){
+      tool.style.background = "white"
+    }
+  })
 }
+
 
 function pen() {
   currentPenColour = newCurrentPenColour; 

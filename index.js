@@ -8,10 +8,14 @@ canvas.style.gridTemplateRows = `repeat(${gridLength}, 1fr)`;
 const toolBox = document.getElementById("toolBox");
 const tools = document.getElementsByClassName("toolButton");
 const toolsArr = [...tools];
+
 let currentTool = "pen";
 const selectedToolBtnColour = "#7CA4C5";
+
 let currentPenColour = toolsArr[0].defaultValue;
 let newCurrentPenColour = toolsArr[0].defaultValue;
+
+let isGridVisible = true;
 
 toolsArr.forEach((tool) => {
   tool.addEventListener("click", (e) => onToolClick(e));
@@ -22,7 +26,6 @@ toolsArr.forEach((tool) => {
 
 function onToolClick(e) {
   let toolName = e.target.getAttribute("name");
-  // make this to switch statements
   switch (toolName) {
     case "pen":
       currentTool = toolName;
@@ -40,14 +43,19 @@ function onToolClick(e) {
       currentTool = toolName;
       clearCanvas();
       break;
+    case "toggleGrid":
+      currentTool = toolName;
+      toggleGrid();
+      break;
+    
   }
-
   toolsArr.forEach((tool) => {
-    if (currentTool === tool.attributes.name.nodeValue) {
+    toolName = tool.attributes.name.nodeValue;
+    if (currentTool === toolName) {
       e.target.style.background = selectedToolBtnColour;
     } else if (currentTool === "colourSelector") {
       e.target.style.background = "white";
-    } else if (currentTool != tool.attributes.name.nodeValue) {
+    } else if (currentTool != toolName) {
       tool.style.background = "white";
     }
   });
@@ -68,11 +76,24 @@ function clearCanvas(){
     canvas.children[i].style.background = canvasColour;
   }
 }
+function toggleGrid() {
+  isGridVisible = !isGridVisible;
+  if(isGridVisible){
+    for (let i = 0; i < canvas.childElementCount; i++){
+      canvas.children[i].style.border = "1px solid #cacaca91";
+    }
+  }else{
+    for (let i = 0; i < canvas.childElementCount; i++){
+      canvas.children[i].style.border = null;
+    }
+  }
+}
 
 for (let i = 0; i < gridLength * gridLength; i++) {
   const squareDiv = document.createElement("div");
   squareDiv.classList.add("squareDiv");
   squareDiv.addEventListener("mouseover", (e) => mouseOver(e));
+  squareDiv.style.border = isGridVisible? "1px solid #cacaca91" : null;
   canvas.appendChild(squareDiv);
 }
 

@@ -24,7 +24,6 @@ body {
 }
 .toolButton {
   background: white;
-  /* #2084FC */
   color: inherit;
   border: none;
   padding: 0;
@@ -32,7 +31,9 @@ body {
   cursor: pointer;
   outline: inherit;
 }
-
+.toolButton:hover {
+  background-color: #b8d7ed41 !important;
+}
 .toolButton img {
   max-width: 30px;
 }

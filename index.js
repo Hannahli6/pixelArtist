@@ -10,7 +10,7 @@ const tools = document.getElementsByClassName("toolButton");
 const toolsArr = [...tools];
 
 let currentTool = "pen";
-const selectedToolBtnColour = "#7CA4C5";
+const selectedToolBtnColour = "#b8d7ed";
 
 let currentPenColour = toolsArr[0].defaultValue;
 let newCurrentPenColour = toolsArr[0].defaultValue;
@@ -20,6 +20,7 @@ let isGridVisible = true;
 toolsArr.forEach((tool) => {
   tool.addEventListener("click", (e) => onToolClick(e));
   if (currentTool === tool.attributes.name.nodeValue) {
+    // highlight the default tool
     tool.style.backgroundColor = selectedToolBtnColour;
   }
 });
@@ -47,20 +48,23 @@ function onToolClick(e) {
       currentTool = toolName;
       toggleGrid();
       break;
-    
   }
   toolsArr.forEach((tool) => {
     toolName = tool.attributes.name.nodeValue;
-    if (currentTool === toolName) {
-      e.target.style.background = selectedToolBtnColour;
+    // make toggle tool and clear tool not highlighted
+    if (currentTool === "toggleGrid" || currentTool === "clear") {
+      tool.style.background = "none";
+    } else if (currentTool === toolName) {
+      tool.style.background = selectedToolBtnColour;
     } else if (currentTool === "colourSelector") {
-      e.target.style.background = "white";
+      tool.style.background = "white";
     } else if (currentTool != toolName) {
       tool.style.background = "white";
     }
   });
 }
 
+// tool functions
 function pen() {
   currentPenColour = newCurrentPenColour;
 }
@@ -71,32 +75,33 @@ function colourSelector(e) {
   newCurrentPenColour = e.target.value;
   currentPenColour = newCurrentPenColour;
 }
-function clearCanvas(){
-  for (let i = 0; i < canvas.childElementCount; i++){
+function clearCanvas() {
+  for (let i = 0; i < canvas.childElementCount; i++) {
     canvas.children[i].style.background = canvasColour;
   }
 }
 function toggleGrid() {
   isGridVisible = !isGridVisible;
-  if(isGridVisible){
-    for (let i = 0; i < canvas.childElementCount; i++){
+  if (isGridVisible) {
+    for (let i = 0; i < canvas.childElementCount; i++) {
       canvas.children[i].style.border = "1px solid #cacaca91";
     }
-  }else{
-    for (let i = 0; i < canvas.childElementCount; i++){
+  } else {
+    for (let i = 0; i < canvas.childElementCount; i++) {
       canvas.children[i].style.border = null;
     }
   }
 }
-
+// creating the grid / canvas **
 for (let i = 0; i < gridLength * gridLength; i++) {
   const squareDiv = document.createElement("div");
   squareDiv.classList.add("squareDiv");
   squareDiv.addEventListener("mouseover", (e) => mouseOver(e));
-  squareDiv.style.border = isGridVisible? "1px solid #cacaca91" : null;
+  squareDiv.style.border = isGridVisible ? "1px solid #cacaca91" : null;
   canvas.appendChild(squareDiv);
 }
 
+// drawing**
 let pressed = false;
 function draw(event) {
   event.target.style.background = currentPenColour;
@@ -125,3 +130,36 @@ canvas.addEventListener("mousedown", function (e) {
   e.preventDefault();
   mouseDown(e);
 });
+
+// colour palette
+
+const colourPaletteContainer = document.getElementById("colourPalette")
+const COLOURPALETTE = [
+  { red: "#FF6961" },
+  { pink: "#C780E8" },
+  { purple: "#9D94FF" },
+  { blue: "#59ADF6" },
+  { teal: "#08CAD1" },
+  { green: "#42D6A4" },
+  { yellow: "#F8F38D" },
+  { orange: "#FFB480" },
+];
+
+COLOURPALETTE.forEach((colour, index)=>{
+  const demoColour = document.createElement("div");
+  demoColour.classList.add("demoColour");
+  // add eventlistner here
+  demoColour.style.background = colour[Object.keys(colour)];
+  colourPaletteContainer.appendChild(demoColour);
+})
+
+
+{/* <div class="red demoColour"></div>
+  <div class="orange demoColour"></div>
+  <div class="yellow demoColour"></div>
+  <div class="green demoColour"></div>
+  <div class="teal demoColour"></div>
+  <div class="blue demoColour"></div>
+  <div class="purple demoColour"></div>
+  <div class="pink demoColour"></div> */}
+

@@ -38,7 +38,7 @@ function onToolClick(e) {
       break;
     case "colourSelector":
       currentTool = toolName;
-      e.target.addEventListener("input", (e) => colourSelector(e), false);
+      e.target.addEventListener("input", (e) => colourSelector(e));
       break;
     case "clear":
       currentTool = toolName;
@@ -51,13 +51,16 @@ function onToolClick(e) {
   }
   toolsArr.forEach((tool) => {
     toolName = tool.attributes.name.nodeValue;
-    // make toggle tool and clear tool not highlighted
-    if (currentTool === "toggleGrid" || currentTool === "clear") {
-      tool.style.background = "none";
-    } else if (currentTool === toolName) {
+    if (currentTool === toolName) {
       tool.style.background = selectedToolBtnColour;
-    } else if (currentTool === "colourSelector") {
-      tool.style.background = "white";
+      // make toggle tool and clear tool not highlighted
+      if (
+        currentTool === "toggleGrid" ||
+        currentTool === "clear" ||
+        currentTool === "colourSelector"
+      ) {
+        tool.style.background = "none";
+      }
     } else if (currentTool != toolName) {
       tool.style.background = "white";
     }
@@ -92,6 +95,34 @@ function toggleGrid() {
     }
   }
 }
+function pickDemoColour(colour) {
+  const [colourSelectorInput] = document.getElementsByName("colourSelector");
+  colourSelectorInput.value = colour;
+  currentPenColour = colour;
+}
+
+// colour palette
+const colourPaletteContainer = document.getElementById("colourPalette");
+const COLOURPALETTE = [
+  { red: "#FF6961" },
+  { teal: "#6bdce0" },
+  { orange: "#FFB480" },
+  { pink: "#fca1cf" },
+  { yellow: "#F8F38D" },
+  { purple: "#9D94FF" },
+  { green: "#42D6A4" },
+  { blue: "#59ADF6" },
+];
+
+COLOURPALETTE.forEach((colourObj, index) => {
+  const demoColour = document.createElement("div");
+  const colour = colourObj[Object.keys(colourObj)]
+  demoColour.classList.add("demoColour");
+  demoColour.addEventListener("click", ()=>pickDemoColour(colour));
+  demoColour.style.background = colour;
+  colourPaletteContainer.appendChild(demoColour);
+});
+
 // creating the grid / canvas **
 for (let i = 0; i < gridLength * gridLength; i++) {
   const squareDiv = document.createElement("div");
@@ -130,36 +161,4 @@ canvas.addEventListener("mousedown", function (e) {
   e.preventDefault();
   mouseDown(e);
 });
-
-// colour palette
-
-const colourPaletteContainer = document.getElementById("colourPalette")
-const COLOURPALETTE = [
-  { red: "#FF6961" },
-  { pink: "#C780E8" },
-  { purple: "#9D94FF" },
-  { blue: "#59ADF6" },
-  { teal: "#08CAD1" },
-  { green: "#42D6A4" },
-  { yellow: "#F8F38D" },
-  { orange: "#FFB480" },
-];
-
-COLOURPALETTE.forEach((colour, index)=>{
-  const demoColour = document.createElement("div");
-  demoColour.classList.add("demoColour");
-  // add eventlistner here
-  demoColour.style.background = colour[Object.keys(colour)];
-  colourPaletteContainer.appendChild(demoColour);
-})
-
-
-{/* <div class="red demoColour"></div>
-  <div class="orange demoColour"></div>
-  <div class="yellow demoColour"></div>
-  <div class="green demoColour"></div>
-  <div class="teal demoColour"></div>
-  <div class="blue demoColour"></div>
-  <div class="purple demoColour"></div>
-  <div class="pink demoColour"></div> */}
 

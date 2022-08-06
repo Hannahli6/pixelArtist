@@ -45,8 +45,13 @@ body {
   border: none;
 }
 .demoColour {
+  box-sizing: border-box;
   width: 100%;
   border: 1px solid #525252d8;
+  transition: ease 0.05s;
+}
+.demoColour:hover{
+  border: 3px solid #525252d8 !important;
 }
 
 #colourPalette {
@@ -64,5 +69,4 @@ body {
   display: grid;
   background-color: rgba(255, 255, 255, 0);
   border-radius: 0px;
-  /* border: 1px solid #cacaca91; */
 }

@@ -99,9 +99,10 @@ function pickDemoColour(colour) {
   const [colourSelectorInput] = document.getElementsByName("colourSelector");
   colourSelectorInput.value = colour;
   currentPenColour = colour;
+  newCurrentPenColour = colour;
 }
 
-// colour palette
+// colour palette *****
 const colourPaletteContainer = document.getElementById("colourPalette");
 const COLOURPALETTE = [
   { red: "#FF6961" },

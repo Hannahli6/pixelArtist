@@ -1,9 +1,7 @@
 const canvas = document.getElementById("canvas");
 let canvasColour = "white";
 canvas.style.backgroundColor = canvasColour;
-const gridLength = 8; // e.g. 16 rows & 16 columns
-canvas.style.gridTemplateColumns = `repeat(${gridLength}, 1fr)`;
-canvas.style.gridTemplateRows = `repeat(${gridLength}, 1fr)`;
+// let gridLength = 8; // e.g. 16 rows & 16 columns
 
 const toolBox = document.getElementById("toolBox");
 const tools = document.getElementsByClassName("toolButton");
@@ -44,8 +42,14 @@ function onToolClick(e) {
       currentTool = toolName;
       clearCanvas();
       break;
-    case "toggleGrid":
+    case "canvasSizeSelector":
       currentTool = toolName;
+      e.target.oninput = () => {
+        e.preventDefault();
+        createCanvas(e.target.value);
+      };
+      break;
+    case "toggleGrid":
       toggleGrid();
       break;
   }
@@ -102,6 +106,25 @@ function pickDemoColour(colour) {
   newCurrentPenColour = colour;
 }
 
+function createCanvas(gridLength) {
+  // delete canvas previous children before creating new canvas
+  const canvasSizeText = document.getElementsByClassName("canvasSizeText")[0];
+  canvasSizeText.innerHTML = `${gridLength} x ${gridLength}`;
+  while (canvas.childElementCount) {
+    canvas.firstChild.remove();
+  }
+  canvas.style.gridTemplateColumns = `repeat(${gridLength}, 1fr)`;
+  canvas.style.gridTemplateRows = `repeat(${gridLength}, 1fr)`;
+  for (let i = 0; i < gridLength * gridLength; i++) {
+    const squareDiv = document.createElement("div");
+    squareDiv.classList.add("squareDiv");
+    squareDiv.addEventListener("mouseover", (e) => mouseOver(e));
+    squareDiv.style.border = isGridVisible ? "1px solid #cacaca91" : null;
+    canvas.appendChild(squareDiv);
+  }
+}
+createCanvas(10);
+
 // colour palette *****
 const colourPaletteContainer = document.getElementById("colourPalette");
 const COLOURPALETTE = [
@@ -117,21 +140,12 @@ const COLOURPALETTE = [
 
 COLOURPALETTE.forEach((colourObj, index) => {
   const demoColour = document.createElement("div");
-  const colour = colourObj[Object.keys(colourObj)]
+  const colour = colourObj[Object.keys(colourObj)];
   demoColour.classList.add("demoColour");
-  demoColour.addEventListener("click", ()=>pickDemoColour(colour));
+  demoColour.addEventListener("click", () => pickDemoColour(colour));
   demoColour.style.background = colour;
   colourPaletteContainer.appendChild(demoColour);
 });
-
-// creating the grid / canvas **
-for (let i = 0; i < gridLength * gridLength; i++) {
-  const squareDiv = document.createElement("div");
-  squareDiv.classList.add("squareDiv");
-  squareDiv.addEventListener("mouseover", (e) => mouseOver(e));
-  squareDiv.style.border = isGridVisible ? "1px solid #cacaca91" : null;
-  canvas.appendChild(squareDiv);
-}
 
 // drawing**
 let pressed = false;
@@ -162,4 +176,3 @@ canvas.addEventListener("mousedown", function (e) {
   e.preventDefault();
   mouseDown(e);
 });
-

@@ -43,10 +43,8 @@ function onToolClick(e) {
       break;
     case "canvasSizeSelector":
       currentTool = toolName;
-      e.target.oninput = () => {
-        e.preventDefault();
-        createCanvas(e.target.value);
-      };
+      e.preventDefault();
+      createCanvas(e.target.value)
       break;
     case "toggleGrid":
       toggleGrid();

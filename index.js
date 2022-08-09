@@ -1,7 +1,6 @@
 const canvas = document.getElementById("canvas");
 let canvasColour = "white";
 canvas.style.backgroundColor = canvasColour;
-// let gridLength = 8; // e.g. 16 rows & 16 columns
 
 const toolBox = document.getElementById("toolBox");
 const tools = document.getElementsByClassName("toolButton");
